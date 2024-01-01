@@ -12,6 +12,9 @@
   scroll-behavior: smooth;
   color-scheme: dark;
 }
+::selection{
+  color: #915eff;
+}
 
 .hash-span {
   margin-top: -100px;
