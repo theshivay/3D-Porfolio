@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/no-unknown-property */
 /* eslint-disable no-unused-vars */
 import React from "react";
@@ -10,11 +11,13 @@ import CanvasLoader from "../Loader";
 
 import * as THREE from "three";
 
-const Computers = () => {
+import PropTypes from "prop-types";
+
+const Computers = ({isMobile}) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
   return (
     <mesh>
-      <hemisphereLight intensity={5.15} groundColor="black" />
+      <hemisphereLight intensity={4.15} groundColor="black" />
       <pointLight intensity={2} />
       <spotLight
         position={[-20,50,10]}
@@ -22,12 +25,12 @@ const Computers = () => {
         penumbra={1}
         intensity={1}
         castShadow
-        shadow-mapWidth={1024}
+        shadow-mapWidth={2048}
       />
       <primitive
         object={computer.scene}
-        scale={0.75}
-        position={[0, -3.7, -1.5]}
+        scale={isMobile ? 0.7 : 0.75}
+        position={isMobile ? [0,-3,-2.2] : [0, -3.3, -1.5]}
         rotation={[-0.01,-0.2,-0.1]}
       />
     </mesh>
@@ -35,6 +38,25 @@ const Computers = () => {
 }
 
 const ComputerCanvas = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(()=>{
+    const mediaQuery = window.matchMedia("(max-width: 500px)");
+
+    setIsMobile(mediaQuery.matches);
+
+    const handleMediaQueryChange = (event) =>{
+      setIsMobile(event.matches);
+    }
+
+    mediaQuery.addEventListener("change",
+      handleMediaQueryChange);
+
+    return () =>{
+      mediaQuery.removeEventListener("change",
+        handleMediaQueryChange);
+    } 
+  },[])
   return (
     <Canvas
       frameloop="demand"
@@ -48,7 +70,7 @@ const ComputerCanvas = () => {
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Computers />
+        <Computers isMobile = {isMobile} />
       </Suspense>
       <Preload all />
     </Canvas >
