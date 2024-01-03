@@ -1,6 +1,15 @@
-import React from 'react'
+/* eslint-disable no-unused-vars */
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 
-const Ball = () => {
+import {
+  OrbitControls, Decal, Float, Preload, useTexture
+} from '@react-three/drei';
+import CanvasLoader from '../Loader';
+const Ball = (props) => {
+
+  
+
   return (
     <div>Ball</div>
   )
