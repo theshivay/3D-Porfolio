@@ -7,16 +7,18 @@ import * as THREE from "three";
 import { OrbitControls, Decal, Preload, Float, useTexture } from "@react-three/drei";
 import PropTypes from "prop-types";
 import CanvasLoader from '../Loader';
+
 const Ball = (props) => {
   const [decal] = useTexture([props.imgUrl]);
+
   return (
-    <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
+    <Float speed={4.75} rotationIntensity={1} floatIntensity={2}>
       <ambientLight intensity={0.25} />
-      <directionalLight position={[10, 10, 5]} color="#fff" />
+      <directionalLight position={[0, 0, 0.05]} />
       <mesh castShadow receiveShadow scale={2.75}>
         <icosahedronGeometry args={[1, 1]} />
         <meshStandardMaterial
-          color="#fff8eb"
+          color='#fff8eb'
           polygonOffset
           polygonOffsetFactor={-5}
           flatShading
@@ -24,13 +26,13 @@ const Ball = (props) => {
         <Decal
           position={[0, 0, 1]}
           rotation={[2 * Math.PI, 0, 6.25]}
-          flatShading
+          scale={1}
           map={decal}
+          flatShading
         />
       </mesh>
-
     </Float>
-  )
+  );
 };
 
 const BallCanvas = ({ icon }) => {
